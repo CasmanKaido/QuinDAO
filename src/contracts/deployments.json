@@ -1,0 +1,16 @@
+{
+    "sepolia": {
+        "QuinToken": "",
+        "QuinDAOTimelock": "",
+        "QuinDAOGovernance": "",
+        "deployedAt": "",
+        "deployer": ""
+    },
+    "mainnet": {
+        "QuinToken": "",
+        "QuinDAOTimelock": "",
+        "QuinDAOGovernance": "",
+        "deployedAt": "",
+        "deployer": ""
+    }
+}
