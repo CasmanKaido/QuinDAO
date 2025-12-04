@@ -1,10 +1,10 @@
 {
     "base": {
-        "QuinToken": "",
-        "QuinDAOTimelock": "",
-        "QuinDAOGovernance": "",
-        "deployedAt": "",
-        "deployer": ""
+        "QuinToken": "0x0e9B50566Db2757A0Af442832Bc3bFE484D56fd9",
+        "QuinDAOTimelock": "0x8B5816aD87ad9A74334079fdCd0407Db8EB4595c",
+        "QuinDAOGovernance": "0x3fd96273379cc40F465e9f2aCcAd3F65AFf09611",
+        "deployedAt": "2025-12-04",
+        "deployer": "0x9dd53F4bD0DA0118D8e0EA7dd9118F2a456fc855"
     },
     "sepolia": {
         "QuinToken": "",
