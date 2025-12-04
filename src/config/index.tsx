@@ -12,13 +12,14 @@ const queryClient = new QueryClient();
 // 1. Get projectId from https://cloud.reown.com
 const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || 'YOUR_PROJECT_ID_HERE';
 
-// 2. Create wagmiAdapter
+// 2. Create wagmiAdapter with minimal config
 const wagmiAdapter = new WagmiAdapter({
   networks: [base, mainnet, polygon, arbitrum, optimism],
   projectId,
+  ssr: true,
 });
 
-// 3. Create modal
+// 3. Create modal with Reown's built-in wallet support
 createAppKit({
   adapters: [wagmiAdapter],
   networks: [base, mainnet, polygon, arbitrum, optimism],
@@ -31,10 +32,8 @@ createAppKit({
   },
   features: {
     analytics: true,
-    email: false,
-    socials: false,
-    emailShowWallets: true,
   },
+  allWallets: 'SHOW', // Show all wallets via WalletConnect
 });
 
 export { wagmiAdapter, queryClient };
