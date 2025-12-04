@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/governance/Governor.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorSettings.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
-import "@openzeppelin/contracts/governance/extensions/GovernorTimelockControl.sol";
+import "@openzeppelin/contracts@4.9.3/governance/Governor.sol";
+import "@openzeppelin/contracts@4.9.3/governance/extensions/GovernorSettings.sol";
+import "@openzeppelin/contracts@4.9.3/governance/extensions/GovernorCountingSimple.sol";
+import "@openzeppelin/contracts@4.9.3/governance/extensions/GovernorVotes.sol";
+import "@openzeppelin/contracts@4.9.3/governance/extensions/GovernorVotesQuorumFraction.sol";
+import "@openzeppelin/contracts@4.9.3/governance/extensions/GovernorTimelockControl.sol";
 
 /**
  * @title QuinDAOGovernance
  * @dev Main governance contract for QuinDAO
- * Implements proposal creation, voting, and execution with timelock
  */
 contract QuinDAOGovernance is
     Governor,
@@ -36,12 +35,10 @@ contract QuinDAOGovernance is
         GovernorTimelockControl(_timelock)
     {}
 
-    // Required overrides
-
     function votingDelay()
         public
         view
-        override(Governor, GovernorSettings)
+        override(IGovernor, GovernorSettings)
         returns (uint256)
     {
         return super.votingDelay();
@@ -50,7 +47,7 @@ contract QuinDAOGovernance is
     function votingPeriod()
         public
         view
-        override(Governor, GovernorSettings)
+        override(IGovernor, GovernorSettings)
         returns (uint256)
     {
         return super.votingPeriod();
@@ -59,7 +56,7 @@ contract QuinDAOGovernance is
     function quorum(uint256 blockNumber)
         public
         view
-        override(Governor, GovernorVotesQuorumFraction)
+        override(IGovernor, GovernorVotesQuorumFraction)
         returns (uint256)
     {
         return super.quorum(blockNumber);
@@ -74,13 +71,13 @@ contract QuinDAOGovernance is
         return super.state(proposalId);
     }
 
-    function proposalNeedsQueuing(uint256 proposalId)
-        public
-        view
-        override(Governor, GovernorTimelockControl)
-        returns (bool)
-    {
-        return super.proposalNeedsQueuing(proposalId);
+    function propose(
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        string memory description
+    ) public override(Governor, IGovernor) returns (uint256) {
+        return super.propose(targets, values, calldatas, description);
     }
 
     function proposalThreshold()
@@ -92,24 +89,14 @@ contract QuinDAOGovernance is
         return super.proposalThreshold();
     }
 
-    function _queueOperations(
-        uint256 proposalId,
-        address[] memory targets,
-        uint256[] memory values,
-        bytes[] memory calldatas,
-        bytes32 descriptionHash
-    ) internal override(Governor, GovernorTimelockControl) returns (uint48) {
-        return super._queueOperations(proposalId, targets, values, calldatas, descriptionHash);
-    }
-
-    function _executeOperations(
+    function _execute(
         uint256 proposalId,
         address[] memory targets,
         uint256[] memory values,
         bytes[] memory calldatas,
         bytes32 descriptionHash
     ) internal override(Governor, GovernorTimelockControl) {
-        super._executeOperations(proposalId, targets, values, calldatas, descriptionHash);
+        super._execute(proposalId, targets, values, calldatas, descriptionHash);
     }
 
     function _cancel(
@@ -128,5 +115,14 @@ contract QuinDAOGovernance is
         returns (address)
     {
         return super._executor();
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(Governor, GovernorTimelockControl)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 }

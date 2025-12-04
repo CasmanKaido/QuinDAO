@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/governance/TimelockController.sol";
+import "@openzeppelin/contracts@4.9.3/governance/TimelockController.sol";
 
 /**
  * @title QuinDAOTimelock
  * @dev Timelock controller for QuinDAO governance
- * Adds a delay between proposal execution approval and actual execution
  */
 contract QuinDAOTimelock is TimelockController {
     constructor(

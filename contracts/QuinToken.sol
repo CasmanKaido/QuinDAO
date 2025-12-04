@@ -1,49 +1,47 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts@4.9.3/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts@4.9.3/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts@4.9.3/token/ERC20/extensions/draft-ERC20Permit.sol";
+import "@openzeppelin/contracts@4.9.3/token/ERC20/extensions/ERC20Votes.sol";
+import "@openzeppelin/contracts@4.9.3/access/Ownable.sol";
 
 /**
  * @title QuinToken
  * @dev ERC20 governance token for QuinDAO
- * Implements voting power and delegation
  */
 contract QuinToken is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes, Ownable {
     constructor(address initialOwner)
         ERC20("QuinDAO Token", "QUIN")
         ERC20Permit("QuinDAO Token")
-        Ownable(initialOwner)
     {
-        // Mint initial supply to owner (100 million tokens)
+        _transferOwnership(initialOwner);
         _mint(initialOwner, 100_000_000 * 10 ** decimals());
     }
 
-    /**
-     * @dev Mint new tokens (only owner)
-     */
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
 
-    // The following functions are overrides required by Solidity.
-
-    function _update(address from, address to, uint256 value)
+    function _afterTokenTransfer(address from, address to, uint256 amount)
         internal
         override(ERC20, ERC20Votes)
     {
-        super._update(from, to, value);
+        super._afterTokenTransfer(from, to, amount);
     }
 
-    function nonces(address owner)
-        public
-        view
-        override(ERC20Permit, Nonces)
-        returns (uint256)
+    function _mint(address to, uint256 amount)
+        internal
+        override(ERC20, ERC20Votes)
     {
-        return super.nonces(owner);
+        super._mint(to, amount);
+    }
+
+    function _burn(address account, uint256 amount)
+        internal
+        override(ERC20, ERC20Votes)
+    {
+        super._burn(account, amount);
     }
 }
