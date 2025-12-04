@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Web3ModalProvider } from "@/context/Web3Modal";
+import { ToastProvider } from "@/components/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
       >
         <Web3ModalProvider>
           {children}
+          <ToastProvider />
         </Web3ModalProvider>
       </body>
     </html>
