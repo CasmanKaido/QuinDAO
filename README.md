@@ -45,6 +45,8 @@
 
 - Node.js 18+ and npm
 - A Reown Project ID ([Get one here](https://cloud.reown.com))
+- MetaMask or another Web3 wallet
+- Sepolia testnet ETH for contract deployment
 
 ### Installation
 
@@ -69,13 +71,39 @@
    NEXT_PUBLIC_REOWN_PROJECT_ID=your_project_id_here
    ```
 
-4. **Run the development server**
+4. **Deploy Smart Contracts (Optional)**
+   
+   Follow the guide in `contracts/DEPLOYMENT.md` to deploy contracts via Remix IDE to Sepolia testnet.
+   
+   After deployment, update `src/contracts/deployments.json` with your contract addresses.
+
+5. **Run the development server**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
+6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 📦 Smart Contract Deployment
+
+The project includes three main smart contracts:
+
+1. **QuinToken** - ERC20 governance token with voting capabilities
+2. **QuinDAOTimelock** - Timelock controller for delayed execution  
+3. **QuinDAOGovernance** - Main governance contract
+
+**Deployment Steps:**
+1. Open Remix IDE (https://remix.ethereum.org)
+2. Upload contracts from the `contracts/` directory
+3. Follow the detailed guide in `contracts/DEPLOYMENT.md`
+4. Update contract addresses in `src/contracts/deployments.json`
+
+**Test the contracts:**
+- Create a proposal
+- Vote on proposals
+- Execute passed proposals after timelock
+
 
 ## 📁 Project Structure
 
