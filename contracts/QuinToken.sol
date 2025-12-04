@@ -4,6 +4,7 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
@@ -11,7 +12,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @dev ERC20 governance token for QuinDAO
  * Implements voting power and delegation
  */
-contract QuinToken is ERC20, ERC20Burnable, ERC20Votes, Ownable {
+contract QuinToken is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes, Ownable {
     constructor(address initialOwner)
         ERC20("QuinDAO Token", "QUIN")
         ERC20Permit("QuinDAO Token")
