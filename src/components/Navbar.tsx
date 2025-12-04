@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ConnectButton } from './ConnectButton';
 import { NetworkSwitcher } from './NetworkSwitcher';
+import { NotificationCenter } from './NotificationCenter';
 
 export function Navbar() {
     const pathname = usePathname();
@@ -40,8 +41,8 @@ export function Navbar() {
                                     key={item.href}
                                     href={item.href}
                                     className={`px-4 py-2 rounded-lg transition-colors ${pathname === item.href
-                                            ? 'bg-[var(--primary)] text-white'
-                                            : 'text-gray-300 hover:bg-[var(--input-bg)]'
+                                        ? 'bg-[var(--primary)] text-white'
+                                        : 'text-gray-300 hover:bg-[var(--input-bg)]'
                                         }`}
                                 >
                                     {item.name}
@@ -51,6 +52,7 @@ export function Navbar() {
                     </div>
 
                     <div className="flex items-center gap-3">
+                        <NotificationCenter />
                         <NetworkSwitcher />
                         <ConnectButton />
                     </div>
