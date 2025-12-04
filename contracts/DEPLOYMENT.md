@@ -12,8 +12,9 @@ Deploy in this exact order:
 ### 1. Deploy QuinToken
 - Open `QuinToken.sol` in Remix IDE
 - Compile with Solidity 0.8.20+
+- **Switch MetaMask to Base Mainnet** (Chain ID: 8453)
 - Constructor parameter: `initialOwner` (your wallet address)
-- Deploy to Sepolia testnet
+- Deploy to **Base Mainnet**
 - **Save the contract address**
 
 ### 2. Deploy QuinDAOTimelock
@@ -23,7 +24,7 @@ Deploy in this exact order:
   - `proposers`: [address of QuinDAOGovernance - use 0x0 for now, update later]
   - `executors`: [0x0000000000000000000000000000000000000000] (anyone can execute)
   - `admin`: your wallet address
-- Deploy to Sepolia
+- Deploy to **Base Mainnet**
 - **Save the contract address**
 
 ### 3. Deploy QuinDAOGovernance
@@ -56,10 +57,10 @@ Call on QuinToken:
 delegate(<your_wallet_address>)
 ```
 
-## Verification on Etherscan
+## Verification on BaseScan
 
 After deployment, verify each contract:
-1. Go to Sepolia Etherscan
+1. Go to **BaseScan** (https://basescan.org)
 2. Find your contract
 3. Click "Contract" → "Verify and Publish"
 4. Select "Solidity (Single file)"

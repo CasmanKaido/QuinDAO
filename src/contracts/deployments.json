@@ -1,4 +1,11 @@
 {
+    "base": {
+        "QuinToken": "",
+        "QuinDAOTimelock": "",
+        "QuinDAOGovernance": "",
+        "deployedAt": "",
+        "deployer": ""
+    },
     "sepolia": {
         "QuinToken": "",
         "QuinDAOTimelock": "",

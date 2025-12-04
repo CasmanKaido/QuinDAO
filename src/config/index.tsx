@@ -2,7 +2,7 @@
 
 import { createAppKit } from '@reown/appkit/react';
 import { WagmiProvider } from 'wagmi';
-import { mainnet, polygon, arbitrum, optimism } from '@reown/appkit/networks';
+import { mainnet, polygon, arbitrum, optimism, base } from '@reown/appkit/networks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 
@@ -14,14 +14,14 @@ const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || 'YOUR_PROJECT_ID_H
 
 // 2. Create wagmiAdapter
 const wagmiAdapter = new WagmiAdapter({
-  networks: [mainnet, polygon, arbitrum, optimism],
+  networks: [base, mainnet, polygon, arbitrum, optimism],
   projectId,
 });
 
 // 3. Create modal
 createAppKit({
   adapters: [wagmiAdapter],
-  networks: [mainnet, polygon, arbitrum, optimism],
+  networks: [base, mainnet, polygon, arbitrum, optimism],
   projectId,
   metadata: {
     name: 'QuinDAO - Watch Party Voting',
