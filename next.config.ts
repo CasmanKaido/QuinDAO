@@ -6,7 +6,14 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   webpack: (config, { isServer }) => {
     // Externalize problematic dependencies
-    config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    config.externals.push(
+      'pino-pretty',
+      'lokijs',
+      'encoding',
+      'eventemitter2',
+      'axios',
+      '@solana/kit'
+    );
 
     // Externalize optional wallet SDKs that cause build issues
     if (!isServer) {
@@ -16,6 +23,8 @@ const nextConfig: NextConfig = {
         '@metamask/sdk': false,
         'porto': false,
         '@solana/kit': false,
+        'eventemitter2': false,
+        'axios': false,
       };
     }
 
