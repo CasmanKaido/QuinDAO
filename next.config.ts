@@ -6,6 +6,13 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
+    // Externalize Solana and Coinbase SDK dependencies
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
     return config;
   },
   turbopack: {},
