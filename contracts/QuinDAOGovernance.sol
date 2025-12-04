@@ -27,8 +27,8 @@ contract QuinDAOGovernance is
     )
         Governor("QuinDAO Governor")
         GovernorSettings(
-            1, /* 1 block voting delay */
-            50400, /* 1 week voting period (assuming 12s blocks) */
+            7200, /* 1 day voting delay */
+            50400, /* 1 week voting period */
             0 /* proposal threshold */
         )
         GovernorVotes(_token)
@@ -36,12 +36,12 @@ contract QuinDAOGovernance is
         GovernorTimelockControl(_timelock)
     {}
 
-    // The following functions are overrides required by Solidity.
+    // Required overrides
 
     function votingDelay()
         public
         view
-        override(IGovernor, GovernorSettings)
+        override(Governor, GovernorSettings)
         returns (uint256)
     {
         return super.votingDelay();
@@ -50,7 +50,7 @@ contract QuinDAOGovernance is
     function votingPeriod()
         public
         view
-        override(IGovernor, GovernorSettings)
+        override(Governor, GovernorSettings)
         returns (uint256)
     {
         return super.votingPeriod();
@@ -59,7 +59,7 @@ contract QuinDAOGovernance is
     function quorum(uint256 blockNumber)
         public
         view
-        override(IGovernor, GovernorVotesQuorumFraction)
+        override(Governor, GovernorVotesQuorumFraction)
         returns (uint256)
     {
         return super.quorum(blockNumber);
@@ -74,13 +74,13 @@ contract QuinDAOGovernance is
         return super.state(proposalId);
     }
 
-    function propose(
-        address[] memory targets,
-        uint256[] memory values,
-        bytes[] memory calldatas,
-        string memory description
-    ) public override(Governor, IGovernor) returns (uint256) {
-        return super.propose(targets, values, calldatas, description);
+    function proposalNeedsQueuing(uint256 proposalId)
+        public
+        view
+        override(Governor, GovernorTimelockControl)
+        returns (bool)
+    {
+        return super.proposalNeedsQueuing(proposalId);
     }
 
     function proposalThreshold()
@@ -92,14 +92,24 @@ contract QuinDAOGovernance is
         return super.proposalThreshold();
     }
 
-    function _execute(
+    function _queueOperations(
+        uint256 proposalId,
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash
+    ) internal override(Governor, GovernorTimelockControl) returns (uint48) {
+        return super._queueOperations(proposalId, targets, values, calldatas, descriptionHash);
+    }
+
+    function _executeOperations(
         uint256 proposalId,
         address[] memory targets,
         uint256[] memory values,
         bytes[] memory calldatas,
         bytes32 descriptionHash
     ) internal override(Governor, GovernorTimelockControl) {
-        super._execute(proposalId, targets, values, calldatas, descriptionHash);
+        super._executeOperations(proposalId, targets, values, calldatas, descriptionHash);
     }
 
     function _cancel(
@@ -118,14 +128,5 @@ contract QuinDAOGovernance is
         returns (address)
     {
         return super._executor();
-    }
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(Governor, GovernorTimelockControl)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
     }
 }
