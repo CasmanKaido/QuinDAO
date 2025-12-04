@@ -72,15 +72,19 @@ Add Base Mainnet to MetaMask:
 4. **Deploy**:
    - Contract: Select `QuinDAOTimelock`
    - Click dropdown arrow next to Deploy
+   - **IMPORTANT**: Enter parameters WITHOUT quotes around addresses
    - Enter constructor parameters:
      ```
      MINDELAY: 172800
-     PROPOSERS: ["0x0000000000000000000000000000000000000000"]
-     EXECUTORS: ["0x0000000000000000000000000000000000000000"]
-     ADMIN: YOUR_WALLET_ADDRESS
+     PROPOSERS: [0x0000000000000000000000000000000000000000]
+     EXECUTORS: [0x0000000000000000000000000000000000000000]
+     ADMIN: 0xYourWalletAddress
      ```
-   - **Note**: Use square brackets `[]` for arrays
-   - Click **"Deploy"**
+   - **Note**: 
+     - Use square brackets `[]` for arrays
+     - NO quotes around addresses
+     - Replace `0xYourWalletAddress` with your actual address
+   - Click **"transact"** (orange button)
    - Confirm in MetaMask
    - **SAVE THE CONTRACT ADDRESS**
 
@@ -251,6 +255,14 @@ propose(
 ---
 
 ## Troubleshooting
+
+### "invalid BigNumberish value" when deploying Timelock
+- **Problem**: Array parameters have quotes around addresses
+- **Solution**: Remove quotes from addresses in arrays
+  ```
+  ❌ WRONG: ["0x0000..."]
+  ✅ RIGHT: [0x0000...]
+  ```
 
 ### "Invalid EVM version requested"
 - Solution: Use EVM version `default` or `paris`, NOT `cancun`
