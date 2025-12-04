@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { Navbar } from './Navbar';
+import { Footer } from './Footer';
 
 export function Layout({ children }: { children: ReactNode }) {
     return (
@@ -10,6 +11,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <main className="pt-16">
                 {children}
             </main>
+            <Footer />
         </div>
     );
 }
